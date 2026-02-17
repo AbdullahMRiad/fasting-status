@@ -69,6 +69,7 @@
                     format(Date.now(), "yyyy-MM-dd"),
                     lat!,
                     lon!,
+                    new AlAdhanRequests.PrayerTimesOptions(),
                 );
 
             client
