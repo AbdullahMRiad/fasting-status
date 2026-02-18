@@ -36,7 +36,9 @@
     let fgColor: string = searchParams.get("fgColor") ?? "#000000";
     let fontSize: number = searchParams.get("fontSize")
         ? parseInt(searchParams.get("fontSize")!)
-        : 128;
+        : window.innerWidth > 780
+          ? 128
+          : 64;
     let fontWeight: number = searchParams.get("fontWeight")
         ? parseInt(searchParams.get("fontWeight")!)
         : 400;
