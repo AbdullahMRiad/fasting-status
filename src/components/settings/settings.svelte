@@ -1,12 +1,12 @@
 <script lang="ts">
-    export let locationMode: "automatic" | "manual" = "automatic";
-    export let lat: number | null = null;
-    export let lon: number | null = null;
-    export let bgColor: string = "#ffffff";
-    export let fgColor: string = "#000000";
-    export let fontSize: number = 16;
-    export let fontWeight: number = 400;
-    export let fontFamily: string = "Bricolage Grotesque";
+    export let locationMode: "automatic" | "manual";
+    export let lat: number | null;
+    export let lon: number | null;
+    export let bgColor: string;
+    export let fgColor: string;
+    export let fontSize: number;
+    export let fontWeight: number;
+    export let fontFamily: string;
 
     let isSettingsShown: boolean = false;
 
