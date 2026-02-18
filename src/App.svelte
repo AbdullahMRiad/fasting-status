@@ -139,10 +139,7 @@
         <p class="banner red">خطأ في تحميل أوقات الصلاة: {error.message}</p>
     {:else if prayerTimesResponse}
         <div class="main-data">
-            <Status
-                content={isFasting
-                    ? "صائم، الإفطار بعد"
-                    : "مفطر، الصيام بعد"} />
+            <Status {isFasting} />
             <Time duration={timeUntilNextEvent} />
         </div>
     {/if}
