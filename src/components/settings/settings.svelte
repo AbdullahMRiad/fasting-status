@@ -1,20 +1,15 @@
 <script lang="ts">
-    export let locationMode: "automatic" | "manual";
-    export let lat: number | null;
-    export let lon: number | null;
-    export let bgColor: string;
-    export let fgColor: string;
-    export let fontSize: number;
-    export let fontWeight: number;
-    export let fontFamily: string;
+    import type { SettingsManager } from "../../lib/settings-manager.svelte";
+
+    export let settings: SettingsManager;
 
     let isSettingsShown: boolean = false;
 
     function detectLocation() {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
-                lat = position.coords.latitude;
-                lon = position.coords.longitude;
+                settings.latitude = position.coords.latitude;
+                settings.longitude = position.coords.longitude;
             });
         } else {
             alert("Geolocation is not available");
@@ -36,17 +31,20 @@
             <label>
                 <input
                     type="radio"
-                    bind:group={locationMode}
+                    bind:group={settings.locationMode}
                     value="automatic" />
                 تحديد الموقع تلقائيًا
             </label>
             <label>
-                <input type="radio" bind:group={locationMode} value="manual" />
+                <input
+                    type="radio"
+                    bind:group={settings.locationMode}
+                    value="manual" />
                 إدخال الموقع يدويًا
             </label>
         </section>
 
-        {#if locationMode === "automatic"}
+        {#if settings.locationMode === "auto"}
             <button on:click={detectLocation}>تحديد الموقع</button>
         {:else}
             <section>
@@ -54,7 +52,7 @@
                     دائرة العرض:
                     <input
                         type="number"
-                        bind:value={lat}
+                        bind:value={settings.latitude}
                         step="any"
                         placeholder="0.0000" />
                 </label>
@@ -62,7 +60,7 @@
                     خط الطول:
                     <input
                         type="number"
-                        bind:value={lon}
+                        bind:value={settings.longitude}
                         step="any"
                         placeholder="0.0000" />
                 </label>
@@ -74,22 +72,22 @@
         <section>
             <label>
                 لون الخلفية:
-                <input type="color" bind:value={bgColor} />
+                <input type="color" bind:value={settings.backgroundColor} />
             </label>
             <label>
                 لون النص:
-                <input type="color" bind:value={fgColor} />
+                <input type="color" bind:value={settings.foregroundColor} />
             </label>
         </section>
 
         <section>
             <label>
                 الخط:
-                <input type="text" bind:value={fontFamily} />
+                <input type="text" bind:value={settings.fontFamily} />
             </label>
             <label>
                 حجم الخط (بكسل):
-                <input type="number" bind:value={fontSize} />
+                <input type="number" bind:value={settings.fontSize} />
             </label>
             <label>
                 سمك الخط:
@@ -97,13 +95,13 @@
                     type="range"
                     min="1"
                     max="1000"
-                    bind:value={fontWeight} />
+                    bind:value={settings.fontWeight} />
                 <input
                     type="number"
                     min="1"
                     max="1000"
                     width="18px"
-                    bind:value={fontWeight} />
+                    bind:value={settings.fontWeight} />
             </label>
         </section>
     </div>

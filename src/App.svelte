@@ -18,42 +18,14 @@
         type AlAdhanTypes,
     } from "@islamicnetwork/sdk";
 
+    import { SettingsManager } from "./lib/settings-manager.svelte";
+
     import Settings from "./components/settings/settings.svelte";
     import Status from "./components/status.svelte";
     import Time from "./components/time.svelte";
     import updateStatus from "./utils/updateStatus";
 
-    const searchParams = new URLSearchParams(window.location.search);
-
-    let locationMode: "automatic" | "manual" = $state(
-        searchParams.get("locationMode") === "manual" ? "manual" : "automatic",
-    );
-    let lat: number | null = $state(
-        searchParams.get("lat") ? parseFloat(searchParams.get("lat")!) : null,
-    );
-    let lon: number | null = $state(
-        searchParams.get("lon") ? parseFloat(searchParams.get("lon")!) : null,
-    );
-    let bgColor: string = $state(searchParams.get("bgColor") ?? "#ffffff");
-    let fgColor: string = $state(searchParams.get("fgColor") ?? "#000000");
-    let fontSize: number = $state(
-        searchParams.get("fontSize")
-            ? parseInt(searchParams.get("fontSize")!)
-            : window.innerWidth > 780
-              ? 128
-              : 64,
-    );
-    let fontWeight: number = $state(
-        searchParams.get("fontWeight")
-            ? parseInt(searchParams.get("fontWeight")!)
-            : 400,
-    );
-    let fontFamily: string = $state(
-        searchParams.get("fontFamily") ??
-            "Bricolage Grotesque Variable, Kufam Variable",
-    );
-
-    let isCoordsAvailable: boolean = $derived(lat && lon ? true : false);
+    const settings = new SettingsManager();
 
     let isFasting: boolean | null = $state(null);
     let nextEvent: "Maghrib" | "Fajr" | null = $state(null);
@@ -67,15 +39,15 @@
     let error: Error | null = $state(null);
 
     $effect(() => {
-        if (isCoordsAvailable) {
+        if (settings.isCoordsAvailable) {
             const fetchTimeout = setTimeout(() => {
                 loading = true;
                 error = null;
                 const request =
                     new AlAdhanRequests.DailyPrayerTimesByCoordinatesRequest(
                         format(Date.now(), "yyyy-MM-dd"),
-                        lat!,
-                        lon!,
+                        settings.latitude!,
+                        settings.longitude!,
                         new AlAdhanRequests.PrayerTimesOptions(),
                     );
 
@@ -115,23 +87,15 @@
 </script>
 
 <main
-    style:background-color={bgColor}
-    style:color={fgColor}
-    style:font-size="{fontSize}px"
-    style:font-weight={fontWeight}
-    style:font-family={fontFamily}>
+    style:background-color={settings.backgroundColor}
+    style:color={settings.foregroundColor}
+    style:font-size="{settings.fontSize}px"
+    style:font-weight={settings.fontWeight}
+    style:font-family={settings.fontFamily}>
     <!-- settings button and panel -->
-    <Settings
-        bind:locationMode
-        bind:lat
-        bind:lon
-        bind:bgColor
-        bind:fgColor
-        bind:fontSize
-        bind:fontWeight
-        bind:fontFamily />
+    <Settings {settings} />
     <!--            time           -->
-    {#if !isCoordsAvailable}<p class="banner yellow">
+    {#if !settings.isCoordsAvailable}<p class="banner yellow">
             أدخل موقعك من الإعدادات
         </p>{/if}
     {#if loading}
