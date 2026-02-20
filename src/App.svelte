@@ -1,7 +1,9 @@
+<!-- TODO: a ton of serious refactoring to split this behemoth -->
+
 <script lang="ts">
     console.log("%cWelcome to the console, nerd.\n", "font-size: 2em;");
     console.log(
-        "%cHere you can see the raw API response from Al Adhan API.",
+        "%cHere you can see the raw API response from Al Adhan API and various console logs I'm too lazy to remove :P.",
         "font-size: 1.5em;",
     );
 
@@ -20,98 +22,95 @@
     import Status from "./components/status.svelte";
     import Time from "./components/time.svelte";
     import updateStatus from "./utils/updateStatus";
-    import { onDestroy } from "svelte";
 
     const searchParams = new URLSearchParams(window.location.search);
 
-    let locationMode: "automatic" | "manual" =
-        searchParams.get("locationMode") === "manual" ? "manual" : "automatic";
-    let lat: number | null = searchParams.get("lat")
-        ? parseFloat(searchParams.get("lat")!)
-        : null;
-    let lon: number | null = searchParams.get("lon")
-        ? parseFloat(searchParams.get("lon")!)
-        : null;
-    let bgColor: string = searchParams.get("bgColor") ?? "#ffffff";
-    let fgColor: string = searchParams.get("fgColor") ?? "#000000";
-    let fontSize: number = searchParams.get("fontSize")
-        ? parseInt(searchParams.get("fontSize")!)
-        : window.innerWidth > 780
-          ? 128
-          : 64;
-    let fontWeight: number = searchParams.get("fontWeight")
-        ? parseInt(searchParams.get("fontWeight")!)
-        : 400;
-    let fontFamily: string =
+    let locationMode: "automatic" | "manual" = $state(
+        searchParams.get("locationMode") === "manual" ? "manual" : "automatic",
+    );
+    let lat: number | null = $state(
+        searchParams.get("lat") ? parseFloat(searchParams.get("lat")!) : null,
+    );
+    let lon: number | null = $state(
+        searchParams.get("lon") ? parseFloat(searchParams.get("lon")!) : null,
+    );
+    let bgColor: string = $state(searchParams.get("bgColor") ?? "#ffffff");
+    let fgColor: string = $state(searchParams.get("fgColor") ?? "#000000");
+    let fontSize: number = $state(
+        searchParams.get("fontSize")
+            ? parseInt(searchParams.get("fontSize")!)
+            : window.innerWidth > 780
+              ? 128
+              : 64,
+    );
+    let fontWeight: number = $state(
+        searchParams.get("fontWeight")
+            ? parseInt(searchParams.get("fontWeight")!)
+            : 400,
+    );
+    let fontFamily: string = $state(
         searchParams.get("fontFamily") ??
-        "Bricolage Grotesque Variable, Kufam Variable";
+            "Bricolage Grotesque Variable, Kufam Variable",
+    );
 
-    let isCoordsAvailable: boolean = false;
+    let isCoordsAvailable: boolean = $derived(lat && lon ? true : false);
 
-    let isFasting: boolean | null = null;
-    let nextEvent: "Maghrib" | "Fajr" | null = null;
-    let timeUntilNextEvent: Duration | null = null;
+    let isFasting: boolean | null = $state(null);
+    let nextEvent: "Maghrib" | "Fajr" | null = $state(null);
+    let timeUntilNextEvent: Duration | null = $state(null);
 
     const client: AlAdhanClient = AlAdhanClient.create();
 
-    let prayerTimesResponse: AlAdhanTypes.PrayerTimesResponse | null = null;
-    let loading = false;
-    let error: Error | null = null;
-    let timer: number | undefined;
-    let fetchTimer: number | undefined;
+    let prayerTimesResponse: AlAdhanTypes.PrayerTimesResponse | null =
+        $state(null);
+    let loading = $state(false);
+    let error: Error | null = $state(null);
 
-    $: if (lat && lon) {
-        isCoordsAvailable = true;
-        if (fetchTimer) window.clearTimeout(fetchTimer);
-        fetchTimer = window.setTimeout(() => {
-            loading = true;
-            error = null;
-            const request =
-                new AlAdhanRequests.DailyPrayerTimesByCoordinatesRequest(
-                    format(Date.now(), "yyyy-MM-dd"),
-                    lat!,
-                    lon!,
-                    new AlAdhanRequests.PrayerTimesOptions(),
-                );
+    $effect(() => {
+        if (isCoordsAvailable) {
+            const fetchTimeout = setTimeout(() => {
+                loading = true;
+                error = null;
+                const request =
+                    new AlAdhanRequests.DailyPrayerTimesByCoordinatesRequest(
+                        format(Date.now(), "yyyy-MM-dd"),
+                        lat!,
+                        lon!,
+                        new AlAdhanRequests.PrayerTimesOptions(),
+                    );
 
-            client
-                .prayerTimes()
-                .dailyByCoordinates(request)
-                .then((r) => {
-                    console.log("Prayer times received:", r);
-                    prayerTimesResponse = r;
-                })
-                .catch((e) => {
-                    console.error("Error fetching prayer times:", e);
-                    error = e;
-                })
-                .finally(() => (loading = false));
-        }, 250);
-    } else {
-        if (fetchTimer) window.clearTimeout(fetchTimer);
-        isCoordsAvailable = false;
-    }
+                client
+                    .prayerTimes()
+                    .dailyByCoordinates(request)
+                    .then((r) => {
+                        console.log("Prayer times received:", r);
+                        prayerTimesResponse = r;
+                    })
+                    .catch((e) => {
+                        error = e;
+                        console.error("Error fetching prayer times:", e);
+                    })
+                    .finally(() => {
+                        loading = false;
+                    });
+            }, 1000);
 
-    function startTimer(response: AlAdhanTypes.PrayerTimesResponse) {
-        console.log("Starting timer...");
-        if (timer) window.clearInterval(timer);
-        ({ isFasting, nextEvent, timeUntilNextEvent } = updateStatus(response));
-        timer = window.setInterval(() => {
-            const status = updateStatus(response);
-            console.log("Timer tick:", status);
-            ({ isFasting, nextEvent, timeUntilNextEvent } = status);
-        }, 1000);
-    }
-
-    $: if (prayerTimesResponse) startTimer(prayerTimesResponse);
-
-    onDestroy(() => {
-        if (timer) {
-            window.clearInterval(timer);
+            return () => clearTimeout(fetchTimeout);
         }
-        if (fetchTimer) {
-            window.clearTimeout(fetchTimer);
+    });
+
+    $effect(() => {
+        function update() {
+            if (prayerTimesResponse) {
+                console.log("Starting timer...");
+                ({ isFasting, nextEvent, timeUntilNextEvent } =
+                    updateStatus(prayerTimesResponse));
+            }
         }
+
+        update();
+        const timer = setInterval(update, 1000);
+        return () => clearInterval(timer);
     });
 </script>
 
