@@ -11,14 +11,10 @@
     import "@fontsource-variable/bricolage-grotesque";
     import "@fontsource-variable/kufam";
 
-    import { format, type Duration } from "date-fns";
-    import {
-        AlAdhanClient,
-        AlAdhanRequests,
-        type AlAdhanTypes,
-    } from "@islamicnetwork/sdk";
+    import type { Duration } from "date-fns";
 
     import { settings } from "./lib/settings-manager.svelte";
+    import { prayerTimesManager } from "./lib/prayer-times.svelte";
 
     import Settings from "./components/settings/settings.svelte";
     import Status from "./components/status.svelte";
@@ -29,52 +25,13 @@
     let nextEvent: "Maghrib" | "Fajr" | null = $state(null);
     let timeUntilNextEvent: Duration | null = $state(null);
 
-    const client: AlAdhanClient = AlAdhanClient.create();
-
-    let prayerTimesResponse: AlAdhanTypes.PrayerTimesResponse | null =
-        $state(null);
-    let loading = $state(false);
-    let error: Error | null = $state(null);
-
-    $effect(() => {
-        if (settings.isCoordsAvailable) {
-            const fetchTimeout = setTimeout(() => {
-                loading = true;
-                error = null;
-                const request =
-                    new AlAdhanRequests.DailyPrayerTimesByCoordinatesRequest(
-                        format(Date.now(), "yyyy-MM-dd"),
-                        settings.latitude!,
-                        settings.longitude!,
-                        new AlAdhanRequests.PrayerTimesOptions(),
-                    );
-
-                client
-                    .prayerTimes()
-                    .dailyByCoordinates(request)
-                    .then((r) => {
-                        console.log("Prayer times received:", r);
-                        prayerTimesResponse = r;
-                    })
-                    .catch((e) => {
-                        error = e;
-                        console.error("Error fetching prayer times:", e);
-                    })
-                    .finally(() => {
-                        loading = false;
-                    });
-            }, 1000);
-
-            return () => clearTimeout(fetchTimeout);
-        }
-    });
-
     $effect(() => {
         function update() {
-            if (prayerTimesResponse) {
+            if (prayerTimesManager.prayerTimesResponse) {
                 console.log("Starting timer...");
-                ({ isFasting, nextEvent, timeUntilNextEvent } =
-                    updateStatus(prayerTimesResponse));
+                ({ isFasting, nextEvent, timeUntilNextEvent } = updateStatus(
+                    prayerTimesManager.prayerTimesResponse,
+                ));
             }
         }
 
@@ -96,11 +53,13 @@
     {#if !settings.isCoordsAvailable}<p class="banner yellow">
             أدخل موقعك من الإعدادات
         </p>{/if}
-    {#if loading}
+    {#if prayerTimesManager.loading}
         <p class="banner blue">جارٍ تحميل أوقات الصلاة...</p>
-    {:else if error}
-        <p class="banner red">خطأ في تحميل أوقات الصلاة: {error.message}</p>
-    {:else if prayerTimesResponse}
+    {:else if prayerTimesManager.error}
+        <p class="banner red">
+            خطأ في تحميل أوقات الصلاة: {prayerTimesManager.error.message}
+        </p>
+    {:else if prayerTimesManager.prayerTimesResponse}
         <div class="main-data">
             <Status {isFasting} />
             <Time duration={timeUntilNextEvent} />
