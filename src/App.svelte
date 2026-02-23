@@ -15,30 +15,12 @@
 
     import { settings } from "./lib/settings-manager.svelte";
     import { prayerTimesManager } from "./lib/prayer-times.svelte";
+    import { status } from "./lib/status-manager.svelte";
 
     import Settings from "./components/settings/settings.svelte";
     import Status from "./components/status.svelte";
     import Time from "./components/time.svelte";
     import updateStatus from "./utils/updateStatus";
-
-    let isFasting: boolean | null = $state(null);
-    let nextEvent: "Maghrib" | "Fajr" | null = $state(null);
-    let timeUntilNextEvent: Duration | null = $state(null);
-
-    $effect(() => {
-        function update() {
-            if (prayerTimesManager.prayerTimesResponse) {
-                console.log("Starting timer...");
-                ({ isFasting, nextEvent, timeUntilNextEvent } = updateStatus(
-                    prayerTimesManager.prayerTimesResponse,
-                ));
-            }
-        }
-
-        update();
-        const timer = setInterval(update, 1000);
-        return () => clearInterval(timer);
-    });
 </script>
 
 <main
@@ -48,7 +30,7 @@
     style:font-weight={settings.fontWeight}
     style:font-family={settings.fontFamily}>
     <!-- settings button and panel -->
-    <Settings {settings} />
+    <Settings />
     <!--            time           -->
     {#if !settings.isCoordsAvailable}<p class="banner yellow">
             أدخل موقعك من الإعدادات
@@ -61,8 +43,8 @@
         </p>
     {:else if prayerTimesManager.prayerTimesResponse}
         <div class="main-data">
-            <Status {isFasting} />
-            <Time duration={timeUntilNextEvent} />
+            <Status isFasting={status.isFasting} />
+            <Time duration={status.timeUntilNextEvent} />
         </div>
     {/if}
 </main>
