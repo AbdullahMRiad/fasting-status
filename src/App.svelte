@@ -1,5 +1,3 @@
-<!-- TODO: a ton of serious refactoring to split this behemoth -->
-
 <script lang="ts">
     console.log("%cWelcome to the console, nerd.\n", "font-size: 2em;");
     console.log(
@@ -29,9 +27,7 @@
     style:font-size="{settings.fontSize}px"
     style:font-weight={settings.fontWeight}
     style:font-family={settings.fontFamily}>
-    <!-- settings button and panel -->
     <Settings />
-    <!--            time           -->
     {#if !settings.isCoordsAvailable}<p class="banner yellow">
             أدخل موقعك من الإعدادات
         </p>{/if}
