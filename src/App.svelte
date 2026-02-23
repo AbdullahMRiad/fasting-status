@@ -18,14 +18,12 @@
         type AlAdhanTypes,
     } from "@islamicnetwork/sdk";
 
-    import { SettingsManager } from "./lib/settings-manager.svelte";
+    import { settings } from "./lib/settings-manager.svelte";
 
     import Settings from "./components/settings/settings.svelte";
     import Status from "./components/status.svelte";
     import Time from "./components/time.svelte";
     import updateStatus from "./utils/updateStatus";
-
-    const settings = new SettingsManager();
 
     let isFasting: boolean | null = $state(null);
     let nextEvent: "Maghrib" | "Fajr" | null = $state(null);

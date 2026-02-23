@@ -42,3 +42,5 @@ export class SettingsManager {
         return this.latitude !== null && this.longitude !== null;
     }
 }
+
+export const settings = new SettingsManager();

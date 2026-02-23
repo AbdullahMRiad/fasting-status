@@ -1,7 +1,5 @@
 <script lang="ts">
-    import type { SettingsManager } from "../../lib/settings-manager.svelte";
-
-    export let settings: SettingsManager;
+    import { settings } from "../../lib/settings-manager.svelte";
 
     let isSettingsShown: boolean = false;
 
