@@ -21,6 +21,7 @@
     import Time from "./components/time.svelte";
     import updateStatus from "./utils/updateStatus";
     import detectLocation from "./utils/detectLocation";
+    import getLuminance from "./utils/getLuminance";
 
     $effect(() => {
         banner.set(null);
@@ -41,12 +42,32 @@
         }
     });
 
+    $effect(() => {
+        const root = document.documentElement;
+        const contrast =
+            getLuminance(settings.backgroundColor) > 0.179
+                ? "#000000"
+                : "#ffffff";
+        root.style.setProperty("--bg-color", settings.backgroundColor);
+        root.style.setProperty("--accent-color", settings.foregroundColor);
+        root.style.setProperty("--fg-color", contrast);
+        root.style.setProperty(
+            "--btn-fg-color",
+            getLuminance(settings.foregroundColor) > 0.179
+                ? "#000000"
+                : "#ffffff",
+        );
+        root.style.setProperty("--font-sans", settings.fontFamily);
+        root.style.setProperty("--font-weight", settings.fontWeight.toString());
+        root.style.setProperty("--font-size-time", settings.fontSize + "px");
+    });
+
     if (!settings.isCoordsAvailable) detectLocation();
 </script>
 
 <main
-    style:background-color={settings.backgroundColor}
-    style:color={settings.foregroundColor}
+    style:background-color="var(--color-paper)"
+    style:color="var(--color-accent)"
     style:font-size="{settings.fontSize}px"
     style:font-weight={settings.fontWeight}
     style:font-family={settings.fontFamily}>
