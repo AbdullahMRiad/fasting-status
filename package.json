@@ -27,6 +27,7 @@
         "@fontsource-variable/bricolage-grotesque": "^5.2.10",
         "@fontsource-variable/kufam": "^5.2.8",
         "@islamicnetwork/sdk": "^0.1.4",
+        "@lucide/svelte": "^0.575.0",
         "date-fns": "^4.1.0"
     }
 }
