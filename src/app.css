@@ -1,56 +1,535 @@
+/* ============================================================
+   1. DESIGN TOKENS
+   ============================================================ */
+
+:root {
+    /* --- Colour palette --- */
+    /* User inputs set via JS */
+    --bg-color: #121212;
+    --accent-color: #ececec;
+    --fg-color: #000000;
+    --btn-fg-color: #ffffff;
+
+    /* Derived neutrals */
+    --color-paper: var(--bg-color);
+    --color-surface: color-mix(in oklch, var(--fg-color) 12%, var(--bg-color));
+    --color-ink: var(--fg-color);
+    --color-paper-dark: color-mix(
+        in oklch,
+        var(--fg-color) 8%,
+        var(--bg-color)
+    );
+    --color-rule: color-mix(in oklch, var(--fg-color) 22%, var(--bg-color));
+    --color-muted: color-mix(in oklch, var(--fg-color) 52%, var(--bg-color));
+
+    /* Derived accent */
+    --color-accent: var(--accent-color);
+    --color-accent-mid: color-mix(
+        in oklch,
+        var(--accent-color) 80%,
+        var(--fg-color)
+    );
+    --color-accent-lit: color-mix(
+        in oklch,
+        var(--accent-color) 18%,
+        var(--bg-color)
+    );
+
+    /* Warn */
+    --color-warn: #8b3a1e;
+    --color-warn-lit: color-mix(
+        in oklch,
+        var(--color-warn) 18%,
+        var(--bg-color)
+    );
+
+    /* --- Radius scale --- */
+    --radius-sm: 0.25rem;
+    --radius: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-pill: calc(infinity * 1px);
+
+    /* --- Typography --- */
+    --font-sans: "Bricolage Grotesque", "Kufam Variable";
+    --font-weight: 400;
+    --font-size: 1rem;
+    --font-size-time: 8rem;
+
+    /* --- Motion --- */
+    --transition: 200ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-elastic: linear(
+        0,
+        0.002 0.6%,
+        0.009 1.2%,
+        0.019 1.8%,
+        0.033 2.4%,
+        0.05 3%,
+        0.074 3.7%,
+        0.102 4.4%,
+        0.137 5.2%,
+        0.196 6.4%,
+        0.271 7.8%,
+        0.564 12.8%,
+        0.692 15.1%,
+        0.754 16.3%,
+        0.807 17.4%,
+        0.856 18.5%,
+        0.901 19.6%,
+        0.942 20.7%,
+        0.975 21.7%,
+        1.008 22.8%,
+        1.037 23.9%,
+        1.061 25%,
+        1.083 26.2%,
+        1.1 27.3%,
+        1.114 28.5%,
+        1.127 30.2%,
+        1.134 31.9%,
+        1.135 33.8%,
+        1.13 35.8%,
+        1.121 37.5%,
+        1.109 39.4%,
+        1.046 47.6%,
+        1.019 51.7%,
+        1.007 54%,
+        0.997 56.3%,
+        0.99 58.6%,
+        0.985 61%,
+        0.982 64.4%,
+        0.982 68.3%,
+        0.999 86.9%,
+        1.002 93%,
+        1
+    );
+    --duration: 500ms;
+}
+
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+
 *,
 *::before,
 *::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
+/* Inherit fonts on all form elements so body font cascades down */
 input,
-button {
-    font-family: inherit !important;
-    border-radius: 8px;
-    padding: 8px 12px;
-    border: 0;
-    background-color: #eee;
-    outline: 0;
-    transition:
-        background 100ms ease-in-out,
-        outline 100ms ease-in-out;
+button,
+textarea,
+select {
+    font: inherit;
 }
 
-input:hover,
-button:hover {
-    background-color: #f6f6f6;
-    outline: 0;
+img,
+svg {
+    display: block;
+    max-width: 100%;
 }
 
-input:active,
-button:active {
-    background-color: #e0e0e0;
-    outline: 0;
+html {
+    font-size: 16px;
 }
 
-input:focus-visible,
-button:focus-visible {
-    outline: 3px solid currentColor;
-}
-
-input[type="color"] {
-    padding: 4px;
-    background-color: #eee;
-}
-
-input[type="color"]::-moz-color-swatch,
-input[type="color"]::-webkit-color-swatch {
-    border: 0;
-    border-radius: 4px;
-}
-
-html,
-body,
-main,
 #app {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight);
+    /* line-height: 1.6; */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+hr {
+    color: var(--color-rule);
+}
+
+/* ============================================================
+   3. BUTTONS
+   ============================================================ */
+
+/* ------ 3a. Base ------------------------------------------ */
+
+button,
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45em;
+
+    padding: 0.65em 1.25em;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius);
+
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+
+    cursor: pointer;
+    outline-offset: 3px; /* keep native focus ring — we add box-shadow on top */
+
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition);
+}
+
+button:active,
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* ------ 3b. Variants -------------------------------------- */
+
+/* Primary — filled */
+.btn-primary,
+button[type="submit"] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--btn-fg-color);
+}
+.btn-primary:hover,
+button[type="submit"]:hover {
+    background: var(--color-accent-mid);
+    border-color: var(--color-accent-mid);
+}
+.btn-primary:focus-visible,
+button[type="submit"]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-accent-lit);
+}
+
+/* Secondary — outlined */
+.btn-secondary {
+    background: transparent;
+    border-color: var(--color-rule);
+    color: var(--color-ink);
+}
+.btn-secondary:hover {
+    background: var(--color-paper-dark);
+    border-color: var(--color-ink);
+}
+.btn-secondary:focus-visible {
+    outline: 2px solid var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-accent-lit);
+}
+
+/* Ghost — no border, low-key */
+.btn-ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-muted);
+    padding-inline: 0.25em;
+}
+.btn-ghost:hover {
+    background: var(--color-paper-dark);
+    color: var(--color-ink);
+}
+.btn-ghost:focus-visible {
+    outline: 2px solid var(--color-accent);
+}
+
+/* Danger — destructive action */
+.btn-danger {
+    background: transparent;
+    border-color: var(--color-rule);
+    color: var(--color-warn);
+}
+.btn-danger:hover {
+    background: var(--color-warn-lit);
+    border-color: var(--color-warn);
+}
+.btn-danger:focus-visible {
+    outline: 2px solid var(--color-warn);
+    box-shadow: 0 0 0 4px var(--color-warn-lit);
+}
+
+/* ------ 3c. Sizes ----------------------------------------- */
+
+.btn-sm {
+    font-size: 0.78rem;
+    padding: 0.45em 0.9em;
+    border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+    font-size: 1rem;
+    padding: 0.8em 1.75em;
+    border-radius: var(--radius-lg);
+}
+
+/* ------ 3d. Icon-only ------------------------------------- */
+/*
+   Usage:  <button class="btn btn-primary btn-icon" aria-label="Add">…svg…</button>
+   Sizes:  combine with .btn-sm or .btn-lg
+   Shape:  add .btn-round for a fully circular button
+*/
+
+.btn-icon {
+    padding: 0.6em;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+}
+.btn-icon.btn-sm {
+    padding: 0.4em;
+}
+.btn-icon.btn-lg {
+    padding: 0.75em;
+}
+.btn-icon.btn-round {
+    border-radius: var(--radius-pill);
+}
+
+/* ------ 3e. Disabled -------------------------------------- */
+
+button:disabled,
+.btn:disabled,
+.btn[aria-disabled="true"] {
+    opacity: 0.42;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ============================================================
+   4. INPUTS
+   ============================================================ */
+
+/* ------ 4a. Field wrapper & label ------------------------- */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+label,
+.label {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.field__hint {
+    font-size: 0.78rem;
+    color: var(--color-muted);
+}
+
+.field__error-msg {
+    font-size: 0.78rem;
+    color: var(--color-warn);
+}
+
+/* ------ 4b. Text / email / number / password / textarea / select --- */
+
+/*
+   We target text-like inputs explicitly to avoid accidentally
+   catching submit, button, file, checkbox, radio, and range —
+   those are each styled separately below.
+*/
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
+        [type="submit"]
+    ):not([type="button"]):not([type="reset"]):not([type="file"]),
+textarea,
+select,
+.input {
     width: 100%;
-    height: 100%;
+    padding: 0.6em 0.9em;
+
+    background: transparent;
+    border: 1.5px solid var(--color-rule);
+    border-radius: var(--radius);
+
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-ink);
+    line-height: 1.5;
+
+    /* Remove browser chrome while keeping functional cues (e.g. date pickers) */
+    -webkit-appearance: none;
+    appearance: none;
+
+    outline: none;
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--color-rule);
+}
+
+/* Focus ring */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not(
+        [type="submit"]
+    ):not([type="button"]):not([type="reset"]):not([type="file"]):focus,
+textarea:focus,
+select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-lit);
+    background: transparent;
+}
+
+/* Error state — add .field--error to the .field wrapper */
+.field--error input,
+.field--error textarea,
+.field--error select {
+    border-color: var(--color-warn);
+    background: var(--color-warn-lit);
+}
+.field--error input:focus,
+.field--error textarea:focus,
+.field--error select:focus {
+    box-shadow: 0 0 0 3px var(--color-warn-lit);
+}
+
+/* Textarea */
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* Select — custom arrow */
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a8680'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75em center;
+    padding-right: 2.2em;
+    cursor: pointer;
+}
+
+/* ------ 4c. Checkbox & Radio ------------------------------ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1.5px solid var(--color-rule);
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+    outline: none;
+    transition:
+        border-color var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+input[type="checkbox"] {
+    border-radius: 2px;
+}
+input[type="radio"] {
+    border-radius: 50%;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+/* Checkmark tick */
+input[type="checkbox"]:checked::after {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 9px;
+    border: 2px solid var(--color-ink);
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translate(1px, -1px);
+    margin: 0 auto;
+}
+
+/* Radio inner dot */
+input[type="radio"]:checked::after {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-ink);
+    margin: auto;
+    margin-top: 3.5px;
+}
+
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+    box-shadow: 0 0 0 3px var(--color-accent-lit);
+    border-color: var(--color-accent);
+}
+
+/* Wrapper label for accessible checkbox/radio + text pairs */
+.check-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    color: var(--color-ink);
+}
+
+/* ------ 4d. Range ----------------------------------------- */
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    padding: 0;
+    border: none;
+    border-radius: 2px;
+    background: var(--color-rule);
+    outline: none;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--color-ink);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+input[type="range"]:hover::-webkit-slider-thumb {
+    transform: scale(1.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 2px solid var(--color-ink);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+input[type="range"]:focus-visible {
+    box-shadow: 0 0 0 3px var(--color-accent-lit);
 }
