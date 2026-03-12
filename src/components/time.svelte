@@ -1,8 +1,9 @@
 <script lang="ts">
+    import { settings } from "../lib/settings-manager.svelte";
     import { status } from "../lib/status-manager.svelte";
 </script>
 
-<div>
+<div style:font-family={settings.timeFontFamily}>
     {#if status.timeUntilNextEvent === null}
         <span class="duration">00:00:00</span>
     {:else}

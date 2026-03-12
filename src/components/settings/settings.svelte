@@ -97,8 +97,12 @@
                 </label>
             </div>
             <label class="control">
-                <span class="label">الخط</span>
-                <input type="text" bind:value={settings.fontFamily} />
+                <span class="label">خط النص</span>
+                <input type="text" bind:value={settings.textFontFamily} />
+            </label>
+            <label class="control">
+                <span class="label">خط الوقت</span>
+                <input type="text" bind:value={settings.timeFontFamily} />
             </label>
             <label class="control">
                 <span class="label">حجم الخط</span>

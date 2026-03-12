@@ -54,7 +54,8 @@
                 ? "#000000"
                 : "#ffffff",
         );
-        root.style.setProperty("--font-sans", settings.fontFamily);
+        root.style.setProperty("--font-text", settings.textFontFamily);
+        root.style.setProperty("--font-time", settings.timeFontFamily);
         root.style.setProperty("--font-weight", settings.fontWeight.toString());
         root.style.setProperty("--font-size-time", settings.fontSize + "px");
     });
@@ -67,7 +68,7 @@
     style:color="var(--color-accent)"
     style:font-size="{settings.fontSize}px"
     style:font-weight={settings.fontWeight}
-    style:font-family={settings.fontFamily}>
+    style:font-family={settings.textFontFamily}>
     <Settings />
 
     <p

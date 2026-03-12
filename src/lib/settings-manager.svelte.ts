@@ -5,7 +5,8 @@ export class SettingsManager {
     foregroundColor = $state("#ffffff");
     fontSize = $state(128);
     fontWeight = $state(400);
-    fontFamily = $state("Bricolage Grotesque Variable, Kufam Variable");
+    textFontFamily = $state("Kufam Variable");
+    timeFontFamily = $state("Bricolage Grotesque Variable");
 
     constructor() {
         if (typeof window === "undefined") return;
@@ -22,9 +23,9 @@ export class SettingsManager {
         this.backgroundColor = params.get("bg") ?? "#121212";
         this.foregroundColor = params.get("fg") ?? "#ececec";
 
-        this.fontFamily =
-            params.get("font") ??
-            "Bricolage Grotesque Variable, Kufam Variable";
+        this.textFontFamily = params.get("text_font") ?? "Kufam Variable";
+        this.timeFontFamily =
+            params.get("time_font") ?? "Bricolage Grotesque Variable";
         this.fontSize = params.get("font_size")
             ? parseInt(params.get("font_size")!)
             : window.innerWidth > 780
