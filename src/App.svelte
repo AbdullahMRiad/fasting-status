@@ -82,8 +82,8 @@
     </p>
     {#if status.isFasting !== null}
         <div class="main-data">
-            <Status isFasting={status.isFasting} />
-            <Time duration={status.timeUntilNextEvent} />
+            <Status />
+            <Time />
         </div>
     {/if}
 </main>

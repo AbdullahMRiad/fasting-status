@@ -1,15 +1,13 @@
 <script lang="ts">
-    import { type Duration } from "date-fns";
-
-    let { duration }: { duration: Duration | null } = $props();
+    import { status } from "../lib/status-manager.svelte";
 </script>
 
 <div>
-    {#if duration === null}
+    {#if status.timeUntilNextEvent === null}
         <span class="duration">00:00:00</span>
     {:else}
         <span class="duration" dir="ltr">
-            {#each [{ c: "hours", v: duration.hours }, { c: "minutes", v: duration.minutes }, { c: "seconds", v: duration.seconds }] as { c, v }}
+            {#each [{ c: "hours", v: status.timeUntilNextEvent.hours }, { c: "minutes", v: status.timeUntilNextEvent.minutes }, { c: "seconds", v: status.timeUntilNextEvent.seconds }] as { c, v }}
                 <span class={c}>
                     {v
                         ? v.toString().padStart(2, "0")
