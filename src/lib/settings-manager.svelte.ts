@@ -49,6 +49,51 @@ export class SettingsManager {
     get isCoordsAvailable() {
         return this.latitude !== null && this.longitude !== null;
     }
+
+    syncToURL() {
+        if (typeof window === "undefined") return;
+
+        const params = new URLSearchParams(window.location.search);
+        const defaults = {
+            bg: "#121212",
+            fg: "#ececec",
+            fontSize: window.innerWidth > 780 ? 128 : 64,
+            fontWeight: 400,
+            textFontFamily: "Alexandria Variable",
+            timeFontFamily: "Bricolage Grotesque Variable",
+        };
+
+        this.latitude
+            ? params.set("latitude", String(this.latitude))
+            : params.delete("latitude");
+        this.longitude
+            ? params.set("longitude", String(this.longitude))
+            : params.delete("longitude");
+
+        this.backgroundColor !== defaults.bg
+            ? params.set("bg", this.backgroundColor)
+            : params.delete("bg");
+        this.foregroundColor !== defaults.fg
+            ? params.set("fg", this.foregroundColor)
+            : params.delete("fg");
+
+        this.fontSize !== defaults.fontSize
+            ? params.set("font_size", String(this.fontSize))
+            : params.delete("font_size");
+        this.fontWeight !== defaults.fontWeight
+            ? params.set("font_weight", String(this.fontWeight))
+            : params.delete("font_weight");
+        this.textFontFamily !== defaults.textFontFamily
+            ? params.set("text_font", this.textFontFamily)
+            : params.delete("text_font");
+        this.timeFontFamily !== defaults.timeFontFamily
+            ? params.set("time_font", this.timeFontFamily)
+            : params.delete("time_font");
+
+        const url = `${window.location.pathname}?${params.toString()}`;
+        console.log("Settigns changed. Current URL:", url);
+        window.history.replaceState({}, "", url);
+    }
 }
 
 export const settings = new SettingsManager();

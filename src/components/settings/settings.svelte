@@ -31,7 +31,10 @@
         on:close={() => {
             isSettingsShown = false;
         }}
-        closedby="any">
+        closedby="any"
+        on:change={() => {
+            settings.syncToURL();
+        }}>
         <header>
             <h1>الإعدادات</h1>
         </header>
@@ -52,7 +55,8 @@
                         type="number"
                         name="latitude"
                         id="latitude"
-                        bind:value={settings.latitude} />
+                        bind:value={settings.latitude}
+                        on:change={() => {}} />
                 </label>
                 <label for="longitude" class="control">
                     <span class="label">خط الطول</span>

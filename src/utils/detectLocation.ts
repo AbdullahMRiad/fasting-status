@@ -20,6 +20,7 @@ export default function detectLocation() {
                 console.error("Geolocation error:", error);
             },
         );
+        settings.syncToURL();
     } else {
         banner.set("خدمة تحديد الموقع غير متوفرة", "error");
         console.error("Geolocation is not available");
