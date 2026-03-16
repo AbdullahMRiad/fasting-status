@@ -108,7 +108,9 @@
                     id="text-font"
                     bind:value={settings.textFontFamily}>
                     {#each TEXT_FONTS as font}
-                        <option value={font}>{font}</option>
+                        <option value={font}>
+                            {font.replace(" Variable", "")}
+                        </option>
                     {/each}
                 </select>
             </label>
@@ -119,7 +121,9 @@
                     id="time-font"
                     bind:value={settings.timeFontFamily}>
                     {#each TIME_FONTS as font}
-                        <option value={font}>{font}</option>
+                        <option value={font}>
+                            {font.replace(" Variable", "")}
+                        </option>
                     {/each}
                 </select>
             </label>
