@@ -139,7 +139,6 @@ html {
     color: var(--color-ink);
     font-family: var(--font-text);
     font-weight: var(--font-weight);
-    /* line-height: 1.6; */
     min-height: 100vh;
     display: flex;
     align-items: center;
