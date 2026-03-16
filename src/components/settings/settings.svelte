@@ -165,7 +165,7 @@
         top: 0.5rem;
         right: 0.5rem;
         z-index: 1;
-        width: 30vw;
+        width: 35vw;
         max-height: calc(100vh - 1rem);
         padding: 1rem;
         border: 0;
@@ -186,6 +186,7 @@
             translate var(--duration) var(--ease-elastic),
             opacity var(--duration) var(--ease-elastic);
         overscroll-behavior-y: none;
+        resize: horizontal;
     }
 
     .settings-panel:not([open]) {
@@ -269,8 +270,8 @@
     }
 
     .colors {
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 0.5rem;
     }
 
