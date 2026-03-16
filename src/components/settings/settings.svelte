@@ -175,7 +175,8 @@
         gap: 1rem;
         overflow-y: scroll;
         font-size: var(--font-size);
-        background-color: var(--color-surface);
+        background-color: oklch(from var(--color-surface) l c h / 0.75);
+        backdrop-filter: blur(1rem);
         color: var(--color-ink);
         opacity: 100%;
         scale: 1;
