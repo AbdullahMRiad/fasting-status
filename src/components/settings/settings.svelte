@@ -119,7 +119,8 @@
                 <select
                     name="time-font"
                     id="time-font"
-                    bind:value={settings.timeFontFamily}>
+                    bind:value={settings.timeFontFamily}
+                    style:font-family={settings.timeFontFamily}>
                     {#each TIME_FONTS as font}
                         <option value={font}>
                             {font.replace(" Variable", "")}
