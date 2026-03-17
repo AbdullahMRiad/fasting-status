@@ -101,7 +101,7 @@
                     </div>
                 </label>
             </div>
-            <label class="control">
+            <!-- <label class="control">
                 <span class="label">خط النص</span>
                 <select
                     name="text-font"
@@ -113,8 +113,27 @@
                         </option>
                     {/each}
                 </select>
-            </label>
-            <label class="control">
+            </label> -->
+            <div class="control">
+                <summary>
+                    <span class="label">خط النص</span>
+                </summary>
+                <div class="font-list">
+                    {#each TEXT_FONTS as font}
+                        <button
+                            class={font === settings.textFontFamily
+                                ? "btn-primary"
+                                : "btn-secondary"}
+                            on:click={() => {
+                                settings.textFontFamily = font;
+                            }}
+                            style:font-family={font}>
+                            أبجد هوز
+                        </button>
+                    {/each}
+                </div>
+            </div>
+            <!-- <label class="control">
                 <span class="label">خط الوقت</span>
                 <select
                     name="time-font"
@@ -127,7 +146,26 @@
                         </option>
                     {/each}
                 </select>
-            </label>
+            </label> -->
+            <div class="control">
+                <summary>
+                    <span class="label">خط الوقت</span>
+                </summary>
+                <div class="font-list">
+                    {#each TIME_FONTS as font}
+                        <button
+                            class={font === settings.timeFontFamily
+                                ? "btn-primary"
+                                : "btn-secondary"}
+                            on:click={() => {
+                                settings.timeFontFamily = font;
+                            }}
+                            style:font-family={font}>
+                            0123456789
+                        </button>
+                    {/each}
+                </div>
+            </div>
             <label class="control">
                 <span class="label">حجم الخط</span>
                 <div class="slider-control">
@@ -326,6 +364,12 @@
         & > input[type="text"] {
             flex: 0 1;
         }
+    }
+
+    .font-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
     }
 
     @media (width <= 750px) {
