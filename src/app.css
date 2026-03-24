@@ -472,14 +472,13 @@ input[type="radio"]:checked {
 /* Checkmark tick */
 input[type="checkbox"]:checked::after {
     content: "";
+    mask-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBMaWNlbnNlOiBNSVQuIE1hZGUgYnkgR2l0bGFiOiBodHRwczovL2dpdGxhYi5jb20vZ2l0bGFiLW9yZy9naXRsYWItc3Zncz9yZWY9aWNvbmR1Y2suY29tIC0tPgo8c3ZnIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDE2IDE2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxwYXRoIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEzLjcwNzEsNC4yOTI4OSBDMTQuMDk3Niw0LjY4MzQyIDE0LjA5NzYsNS4zMTY1OCAxMy43MDcxLDUuNzA3MTEgTDcuNzA3MTEsMTEuNzA3MSBDNy4zMTY1OCwxMi4wOTc2IDYuNjgzNDIsMTIuMDk3NiA2LjI5Mjg5LDExLjcwNzEgTDMuMjkyODksOC43MDcxMSBDMi45MDIzNyw4LjMxNjU4IDIuOTAyMzcsNy42ODM0MiAzLjI5Mjg5LDcuMjkyODkgQzMuNjgzNDIsNi45MDIzNyA0LjMxNjU4LDYuOTAyMzcgNC43MDcxMSw3LjI5Mjg5IEw3LDkuNTg1NzkgTDEyLjI5MjksNC4yOTI4OSBDMTIuNjgzNCwzLjkwMjM3IDEzLjMxNjYsMy45MDIzNyAxMy43MDcxLDQuMjkyODkgWiIvPgo8L3N2Zz4=");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    background-color: var(--color-ink);
+    width: 100%;
+    height: 100%;
     display: block;
-    width: 5px;
-    height: 9px;
-    border: 2px solid var(--color-ink);
-    border-top: none;
-    border-left: none;
-    transform: rotate(45deg) translate(1px, -1px);
-    margin: 0 auto;
 }
 
 /* Radio inner dot */
