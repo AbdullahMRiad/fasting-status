@@ -97,6 +97,9 @@ export class SettingsManager {
             ? params.set("spacing", String(this.spacing))
             : params.delete("spacing");
 
+        this.reverse !== this.defaults.reverse
+            ? params.set("reverse", "1")
+            : params.delete("reverse");
         const url = `${window.location.pathname}?${params.toString()}`;
         console.log("Settigns changed. Current URL:", url);
         window.history.replaceState({}, "", url);
