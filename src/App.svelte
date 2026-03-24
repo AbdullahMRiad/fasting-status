@@ -109,7 +109,11 @@
         {banner.current.message}
     </p>
     {#if status.isFasting !== null}
-        <div class="main-data">
+        <div
+            class="main-data"
+            style:flex-direction={settings.reverse
+                ? "column-reverse"
+                : "column"}>
             <Status />
             <Time />
         </div>
@@ -147,7 +151,6 @@
 
     .main-data {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 100%;

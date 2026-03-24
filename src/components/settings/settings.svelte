@@ -199,6 +199,14 @@
                         bind:value={settings.spacing} />
                 </div>
             </label>
+            <label class="control check-label">
+                <input
+                    type="checkbox"
+                    name="reverse"
+                    id="reverse-checkbox"
+                    bind:checked={settings.reverse} />
+                <span>تبديل مكان الوقت والنص</span>
+            </label>
         </div>
         <footer>
             صنع من قبل <a
