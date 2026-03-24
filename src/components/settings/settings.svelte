@@ -209,13 +209,15 @@
             </label>
         </div>
         <footer>
-            صنع من قبل <a
-                href="https://www.github.com/AbdullahMRiad"
-                target="_blank"
-                rel="noopener noreferrer">
-                عبدالله
-            </a>
-            <br />
+            <span>
+                صنع من قبل <a
+                    href="https://www.github.com/AbdullahMRiad"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    عبدالله
+                </a>
+            </span>
+            <i class="separator"></i>
             <a
                 href="https://www.github.com/AbdullahMRiad/fasting-status"
                 target="_blank"
@@ -408,7 +410,20 @@
     }
 
     footer {
-        text-align: center;
+        display: grid;
+        grid-template-columns: 1fr 0.5rem 1fr;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        opacity: 0.5;
+
+        & > :nth-child(1) {
+            justify-self: end;
+        }
+
+        & > :nth-last-child {
+            justify-self: start;
+        }
     }
 
     @media (width <= 750px) {

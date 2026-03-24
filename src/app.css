@@ -157,19 +157,51 @@ a {
     color: var(--color-accent);
     text-decoration: underline dotted;
     text-underline-position: below;
+    translate: 0;
+    transition:
+        color 100ms ease-in-out,
+        translate 100ms ease-in-out;
 }
 
 a[href*="github.com"]::before {
     content: "";
-    margin-inline: 0.5ch;
-    width: 1em;
-    height: 1em;
+    margin-inline-end: 0.125em;
+    width: 1.25em;
+    height: 1.25em;
     display: inline-block;
     mask-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLUxpY2Vuc2U6IEFwYWNoZS4gTWFkZSBieSBJY29uc2NvdXQ6IGh0dHBzOi8vZ2l0aHViLmNvbS9JY29uc2NvdXQvdW5pY29ucy0tPgo8c3ZnIGZpbGw9ImN1cnJlbnRDb2xvciIgd2lkdGg9IjFlbSIgaGVpZ2h0PSIxZW0iIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHlsZT0iY29sb3I6IHZhcigtLWNvbG9yLWFjY2VudCkiPgogIDxwYXRoIGQ9Ik0xMiwyLjI0NjdBMTAuMDAwNDIsMTAuMDAwNDIsMCwwLDAsOC44Mzc1MiwyMS43MzQxOWMuNS4wODc1Mi42ODc1LS4yMTI0Ny42ODc1LS40NzUsMC0uMjM3NDktLjAxMjUxLTEuMDI1LS4wMTI1MS0xLjg2MjQ5QzcsMTkuODU5MTksNi4zNSwxOC43ODQyMyw2LjE1LDE4LjIyMTczQTMuNjM2LDMuNjM2LDAsMCwwLDUuMTI1LDE2LjgwOTJjLS4zNS0uMTg3NS0uODUtLjY1LS4wMTI1MS0uNjYyNDhBMi4wMDExNywyLjAwMTE3LDAsMCwxLDYuNjUsMTcuMTcxNjlhMi4xMzc0MiwyLjEzNzQyLDAsMCwwLDIuOTEyNDguODI1QTIuMTAzNzYsMi4xMDM3NiwwLDAsMSwxMC4yLDE2LjY1OTIzYy0yLjIyNS0uMjUtNC41NS0xLjExMjU0LTQuNTUtNC45Mzc1YTMuODkxODcsMy44OTE4NywwLDAsMSwxLjAyNS0yLjY4NzUsMy41OTM3MywzLjU5MzczLDAsMCwxLC4xLTIuNjVzLjgzNzQ3LS4yNjI1MSwyLjc1LDEuMDI1YTkuNDI3NDcsOS40Mjc0NywwLDAsMSw1LDBjMS45MTI0OC0xLjMsMi43NS0xLjAyNSwyLjc1LTEuMDI1YTMuNTkzMjMsMy41OTMyMywwLDAsMSwuMSwyLjY1LDMuODY5LDMuODY5LDAsMCwxLDEuMDI1LDIuNjg3NWMwLDMuODM3NDctMi4zMzc1Miw0LjY4NzUtNC41NjI1LDQuOTM3NWEyLjM2ODE0LDIuMzY4MTQsMCwwLDEsLjY3NSwxLjg1YzAsMS4zMzc1Mi0uMDEyNTEsMi40MTI0OC0uMDEyNTEsMi43NSwwLC4yNjI1MS4xODc1LjU3NS42ODc1LjQ3NUExMC4wMDUzLDEwLjAwNTMsMCwwLDAsMTIsMi4yNDY3WiIvPgo8L3N2Zz4K");
     mask-size: contain;
     mask-repeat: no-repeat;
     background-color: var(--color-accent);
     vertical-align: middle;
+    transform: translateY(-2px);
+    translate: 0;
+    transition:
+        background-color 100ms ease-in-out,
+        translate 100ms ease-in-out;
+}
+
+a:hover {
+    color: var(--color-accent-mid);
+}
+
+a[href*="github.com"]:hover::before {
+    background-color: var(--color-accent-mid);
+}
+
+a:active {
+    translate: 0 1px;
+}
+
+a[href*="github.com"]:active::before {
+    translate: 0 1px;
+}
+
+i.separator {
+    aspect-ratio: 1;
+    background-color: var(--color-ink);
+    border-radius: calc(1px * infinity);
+    display: inline-block;
 }
 
 /* ============================================================
