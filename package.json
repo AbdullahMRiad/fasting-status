@@ -1,50 +1,53 @@
 {
-    "name": "siyam",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
-    },
-    "devDependencies": {
-        "@sveltejs/vite-plugin-svelte": "^6.2.1",
-        "@tsconfig/svelte": "^5.0.6",
-        "@types/node": "^24.10.1",
-        "prettier": "^3.8.1",
-        "prettier-plugin-svelte": "^3.4.1",
-        "svelte": "^5.53.5",
-        "svelte-check": "^4.3.4",
-        "typescript": "~5.9.3",
-        "vite": "^8.0.0-beta.13"
-    },
-    "overrides": {
-        "vite": "^8.0.0-beta.13"
-    },
-    "dependencies": {
-        "@fontsource-variable/alexandria": "^5.2.8",
-        "@fontsource-variable/alyamama": "^5.2.1",
-        "@fontsource-variable/beiruti": "^5.2.8",
-        "@fontsource-variable/bricolage-grotesque": "^5.2.10",
-        "@fontsource-variable/cairo": "^5.2.7",
-        "@fontsource-variable/cascadia-mono": "^5.2.2",
-        "@fontsource-variable/fustat": "^5.2.7",
-        "@fontsource-variable/handjet": "^5.2.7",
-        "@fontsource-variable/jetbrains-mono": "^5.2.8",
-        "@fontsource-variable/kufam": "^5.2.8",
-        "@fontsource-variable/mada": "^5.2.8",
-        "@fontsource-variable/noto-naskh-arabic": "^5.2.11",
-        "@fontsource-variable/orbitron": "^5.2.8",
-        "@fontsource-variable/oswald": "^5.2.8",
-        "@fontsource-variable/playfair-display": "^5.2.8",
-        "@fontsource-variable/playpen-sans": "^5.2.9",
-        "@fontsource-variable/playpen-sans-arabic": "^5.2.4",
-        "@fontsource-variable/spline-sans-mono": "^5.2.8",
-        "@fontsource-variable/vazirmatn": "^5.2.8",
-        "@islamicnetwork/sdk": "^0.1.4",
-        "@lucide/svelte": "^0.575.0",
-        "date-fns": "^4.1.0"
-    }
+  "name": "siyam",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "bun run build && wrangler dev",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "deploy": "bun run build && wrangler deploy"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tsconfig/svelte": "^5.0.6",
+    "@types/node": "^24.10.1",
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.4.1",
+    "svelte": "^5.53.5",
+    "svelte-check": "^4.3.4",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0-beta.13"
+  },
+  "overrides": {
+    "vite": "^8.0.0-beta.13"
+  },
+  "dependencies": {
+    "@cloudflare/vite-plugin": "^1.30.1",
+    "@fontsource-variable/alexandria": "^5.2.8",
+    "@fontsource-variable/alyamama": "^5.2.1",
+    "@fontsource-variable/beiruti": "^5.2.8",
+    "@fontsource-variable/bricolage-grotesque": "^5.2.10",
+    "@fontsource-variable/cairo": "^5.2.7",
+    "@fontsource-variable/cascadia-mono": "^5.2.2",
+    "@fontsource-variable/fustat": "^5.2.7",
+    "@fontsource-variable/handjet": "^5.2.7",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/kufam": "^5.2.8",
+    "@fontsource-variable/mada": "^5.2.8",
+    "@fontsource-variable/noto-naskh-arabic": "^5.2.11",
+    "@fontsource-variable/orbitron": "^5.2.8",
+    "@fontsource-variable/oswald": "^5.2.8",
+    "@fontsource-variable/playfair-display": "^5.2.8",
+    "@fontsource-variable/playpen-sans": "^5.2.9",
+    "@fontsource-variable/playpen-sans-arabic": "^5.2.4",
+    "@fontsource-variable/spline-sans-mono": "^5.2.8",
+    "@fontsource-variable/vazirmatn": "^5.2.8",
+    "@islamicnetwork/sdk": "^0.1.4",
+    "@lucide/svelte": "^0.575.0",
+    "date-fns": "^4.1.0",
+    "wrangler": "^4.77.0"
+  }
 }
