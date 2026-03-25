@@ -219,7 +219,7 @@
             </span>
             <i class="separator"></i>
             <a
-                href="https://www.github.com/AbdullahMRiad/fasting-status"
+                href="https://www.github.com/AbdullahMRiad/siyam"
                 target="_blank"
                 rel="noopener noreferrer">
                 اطلع على المصدر
