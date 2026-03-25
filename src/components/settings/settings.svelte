@@ -247,7 +247,7 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        overflow-y: scroll;
+        overflow: hidden;
         font-size: var(--font-size);
         background-color: oklch(from var(--color-surface) l c h / 0.75);
         backdrop-filter: blur(1rem);
@@ -270,10 +270,6 @@
     }
 
     .settings-panel header {
-        position: sticky;
-        top: -1rem;
-        left: 0;
-        right: 0;
         margin: -1rem -1rem 0;
         padding: 1rem;
         padding-right: 4rem;
@@ -292,6 +288,7 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+        overflow-y: scroll;
     }
 
     button[title="toggle settings"] {
